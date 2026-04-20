@@ -1,5 +1,5 @@
 import axios, {type AxiosRequestConfig, type AxiosResponse} from "axios";
-import type { CustomerResponse, TrainingWithCustomer } from "./types";
+import type { Customer, CustomerRequest, CustomerResponse, TrainingWithCustomer } from "./types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL as string) || "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi";
 
@@ -28,10 +28,13 @@ const request = {
 };
 
 const customer = {
-    getAll: async () => {
+  getAll: async () => {
     const response = await request.get<CustomerResponse>("/customers");
     return response._embedded?.customers || [];
-  }
+  },
+  create: (body: CustomerRequest) => request.post<Customer>("/customers", body),
+  update: (url: string, body: CustomerRequest) => request.put<Customer>(url, body),
+  delete: (url: string) => request.delete(url)
 }
 
 const training = {

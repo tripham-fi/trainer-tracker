@@ -1,11 +1,22 @@
+import type { ReactNode } from "react";
+
 export type CustomerResponse = {
   _embedded: {
     customers: Customer[];
   };
 }
 
+export type CustomerRequest = {
+    firstname: string;
+    lastname: string;
+    streetaddress: string;
+    postcode: string;
+    city: string;
+    email: string;
+    phone: string;
+}
+
 export type Customer = {
-  id?: number
   firstname: string
   lastname: string
   streetaddress: string
@@ -47,4 +58,14 @@ export type TrainingWithCustomer = {
     email: string
     phone: string
   }
+}
+
+export type ModalSize = "sm" | "md" | "lg" | "xl";
+
+export type ModalContextType = {
+  openModal: (content: ReactNode, size?: ModalSize) => void;
+  closeModal: () => void;
+  isOpen: boolean;
+  content: ReactNode;
+  size: ModalSize;
 }
