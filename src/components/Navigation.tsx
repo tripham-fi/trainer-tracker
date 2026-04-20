@@ -1,41 +1,65 @@
 import { Link, useLocation } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
+} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from "react";
 
 function Navigation() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
 
+  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
+  const menuItems = [
+    { text: "Home", path: "/" },
+    { text: "Customers", path: "/customers" },
+    { text: "Trainings", path: "/trainings" },
+  ];
+
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Personal Trainer
-        </Typography>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/"
-          variant={location.pathname === "/" ? "outlined" : "text"}
-        >
-          Home
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/customers"
-          variant={location.pathname === "/customers" ? "outlined" : "text"}
-        >
-          Customers
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/trainings"
-          variant={location.pathname === "/trainings" ? "outlined" : "text"}
-        >
-          Trainings
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={toggleDrawer}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Personal Trainer
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
+          <List>
+            {menuItems.map((item) => (
+              <ListItem key={item.path} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  selected={location.pathname === item.path}
+                >
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 }
 

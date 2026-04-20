@@ -9,21 +9,10 @@ function CustomersList() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const loadCustomers = async () => {
-      try {
-        const res = await consumer.customer.getAll();
-        console.log(res);
-
-        // if (!res.ok) throw new Error("Failed to fetch customers");
-        // const data = await res.json();
-        // const customerList = data._embedded?.customers || [];
-        // setCustomers(customerList);
-      } catch (err) {
-        console.error("Error fetching customers:", err);
-      }
-    };
-
-    loadCustomers();
+    consumer.customer
+      .getAll()
+      .then((data) => setCustomers(data))
+      .catch((err) => console.error("Error fetching customers:", err));
   }, []);
 
   const filteredCustomers = customers.filter(

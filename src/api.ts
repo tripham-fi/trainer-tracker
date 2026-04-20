@@ -1,5 +1,5 @@
 import axios, {type AxiosRequestConfig, type AxiosResponse} from "axios";
-import { type Customer } from "./types";
+import type { CustomerResponse, TrainingWithCustomer } from "./types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL as string) || "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi";
 
@@ -28,11 +28,19 @@ const request = {
 };
 
 const customer = {
-    getAll: () => request.get<Customer>("/customers")
+    getAll: async () => {
+    const response = await request.get<CustomerResponse>("/customers");
+    return response._embedded?.customers || [];
+  }
+}
+
+const training = {
+  getAllWithCustomer: () => request.get<TrainingWithCustomer[]>("/gettrainings")
 }
 
 const consumer = {
-    customer
+    customer,
+    training
 };
 
 export default consumer;
