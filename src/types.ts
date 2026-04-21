@@ -16,6 +16,13 @@ export type CustomerRequest = {
     phone: string;
 }
 
+export type AddTrainingRequest = {
+    date: string;
+    activity: string;
+    duration: number;
+    customer: string;
+}
+
 export type Customer = {
   firstname: string
   lastname: string
@@ -69,3 +76,11 @@ export type ModalContextType = {
   content: ReactNode;
   size: ModalSize;
 }
+
+export type CalendarEvent = {
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+  allDay: boolean;
+};

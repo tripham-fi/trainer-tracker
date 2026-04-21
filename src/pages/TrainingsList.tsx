@@ -3,14 +3,18 @@ import type { TrainingWithCustomer } from "../types";
 import consumer from "../api";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { Box, Container, TextField, Typography } from "@mui/material";
+import { Box, Container, IconButton, TextField, Typography } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useModal } from "../ModalContext";
+import DeleteConfirmModal from "../components/modals/DeleteConfirmModal";
 
 dayjs.extend(utc);
 
 function TrainingsList() {
   const [trainings, setTrainings] = useState<TrainingWithCustomer[]>([]);
   const [search, setSearch] = useState<string>("");
+  const { openModal } = useModal();
 
   useEffect(() => {
     consumer.training
@@ -18,6 +22,31 @@ function TrainingsList() {
       .then((data) => setTrainings(data))
       .catch((error) => console.error("Error fetching trainings:", error));
   }, []);
+
+  const deleteTraining = async (training: TrainingWithCustomer) => {
+    if (!training.id) return;
+
+    try {
+      await consumer.training.delete(training.id);
+      // Refresh the list
+      consumer.training
+        .getAllWithCustomer()
+        .then((data) => setTrainings(data))
+        .catch((error) => console.error("Error refreshing trainings:", error));
+    } catch (err) {
+      console.error("Error deleting training:", err);
+    }
+  };
+
+  const handleDeleteTraining = (training: TrainingWithCustomer) => {
+    openModal(
+      <DeleteConfirmModal
+        title="Delete Training"
+        message={`Are you sure you want to delete the training "${training.activity}" on ${dayjs.utc(training.date).format("DD.MM.YYYY HH:mm")}?`}
+        onConfirm={() => deleteTraining(training)}
+      />
+    );
+  };
 
   const filteredTrainings = trainings.filter((t) =>
     t.activity.toLowerCase().includes(search.toLowerCase()),
@@ -39,6 +68,21 @@ function TrainingsList() {
       width: 200,
       valueGetter: (_, row) =>
         `${row.customer.firstname} ${row.customer.lastname}`,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 100,
+      sortable: false,
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => handleDeleteTraining(params.row)}
+          color="error"
+          size="small"
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
     },
   ];
 

@@ -1,5 +1,5 @@
 import axios, {type AxiosRequestConfig, type AxiosResponse} from "axios";
-import type { Customer, CustomerRequest, CustomerResponse, TrainingWithCustomer } from "./types";
+import type { AddTrainingRequest, Customer, CustomerRequest, CustomerResponse, TrainingWithCustomer } from "./types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL as string) || "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi";
 
@@ -38,7 +38,9 @@ const customer = {
 }
 
 const training = {
-  getAllWithCustomer: () => request.get<TrainingWithCustomer[]>("/gettrainings")
+  getAllWithCustomer: () => request.get<TrainingWithCustomer[]>("/gettrainings"),
+  create: (body: AddTrainingRequest) => request.post("/trainings", body),
+  delete: (id: number) => request.delete(`/trainings/${id}`)
 }
 
 const consumer = {

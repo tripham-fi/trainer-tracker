@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteConfirmModal from "../components/modals/DeleteConfirmModal";
+import AddTrainingModal from "../components/modals/AddTrainingModal";
 
 function CustomersList() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -65,6 +66,10 @@ function CustomersList() {
     );
   };
 
+  const handleAddTraining = (customer: Customer) => {
+    openModal(<AddTrainingModal customer={customer} onSuccess={refreshCustomers} />);
+  };
+
   const filteredCustomers = customers.filter(
     (c) =>
       `${c.firstname} ${c.lastname}`
@@ -89,6 +94,13 @@ function CustomersList() {
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 1 }}>
+          <IconButton
+            onClick={() => handleAddTraining(params.row)}
+            color="info"
+            size="small"
+          >
+            <AddIcon />
+          </IconButton>
           <IconButton
             onClick={() => handleEditCustomer(params.row)}
             color="primary"
