@@ -7,6 +7,7 @@ import { ModalProvider } from './ModalContext';
 import ModalContainer from "./components/modals/ModalContainer"
 import CalendarPage from "./pages/CalendarPage"
 import "./App.css"
+import StatisticsPage from "./pages/StatisticsPage"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/customers" element={<CustomersList />} />
         <Route path="/trainings" element={<TrainingsList />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/statistics" element={<StatisticsPage />} />
       </Routes>
       <ModalContainer />
     </ModalProvider>

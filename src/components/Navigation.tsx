@@ -24,6 +24,7 @@ function Navigation() {
     { text: "Customers", path: "/customers" },
     { text: "Trainings", path: "/trainings" },
     { text: "Calendar", path: "/calendar" },
+    { text: "Statistics", path: "/statistics" },
   ];
 
   return (

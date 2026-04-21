@@ -84,3 +84,8 @@ export type CalendarEvent = {
   end: Date;
   allDay: boolean;
 };
+
+export type stat = {
+  activity: string;
+  minutes: number
+}
