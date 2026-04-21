@@ -30,6 +30,38 @@ function CustomersList() {
       .catch((err) => console.error("Error refreshing customers:", err));
   };
 
+    const exportToCSV = () => {
+    if (customers.length === 0) {
+      alert("No customers to export");
+      return;
+    }
+
+    const headers = ["First Name", "Last Name", "Address", "Postcode", "City", "Email", "Phone"];
+
+    const rows = customers.map((c) => [
+      c.firstname,
+      c.lastname,
+      c.streetaddress,
+      c.postcode,
+      c.city,
+      c.email,
+      c.phone,
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = `customers_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     refreshCustomers();
   }, []);
@@ -131,13 +163,21 @@ function CustomersList() {
         }}
       >
         <Typography variant="h5">Customers</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleAddCustomer}
-        >
-          Add Customer
-        </Button>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button
+            variant="outlined"
+            onClick={exportToCSV}
+          >
+            Export to CSV
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleAddCustomer}
+          >
+            Add Customer
+          </Button>
+        </Box>
       </Box>
 
       <Box sx={{ mb: 2 }}>

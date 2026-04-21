@@ -5,7 +5,8 @@ import CustomersList from "./pages/CustomersList"
 import TrainingsList from "./pages/TrainingsList"
 import { ModalProvider } from './ModalContext';
 import ModalContainer from "./components/modals/ModalContainer"
-
+import CalendarPage from "./pages/CalendarPage"
+import "./App.css"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/customers" element={<CustomersList />} />
         <Route path="/trainings" element={<TrainingsList />} />
+        <Route path="/calendar" element={<CalendarPage />} />
       </Routes>
       <ModalContainer />
     </ModalProvider>

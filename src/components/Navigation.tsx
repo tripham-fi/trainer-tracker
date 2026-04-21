@@ -23,6 +23,7 @@ function Navigation() {
     { text: "Home", path: "/" },
     { text: "Customers", path: "/customers" },
     { text: "Trainings", path: "/trainings" },
+    { text: "Calendar", path: "/calendar" },
   ];
 
   return (
