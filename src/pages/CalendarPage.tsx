@@ -53,7 +53,7 @@ function CalendarPage() {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
+        views={[Views.MONTH, Views.WEEK, Views.DAY]}
         defaultView={Views.WEEK}
         eventPropGetter={eventPropGetter}
         messages={{
@@ -63,7 +63,6 @@ function CalendarPage() {
           month: "Month",
           week: "Week",
           day: "Day",
-          agenda: "Agenda",
         }}
       />
     </Container>
